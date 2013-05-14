@@ -1,6 +1,9 @@
 ﻿Public Class Form1
 
+    Dim randomnumber As New Random
+
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        TextBox2.Text = Nothing
 
         Dim beginningtext As String = TextBox1.Text
 
@@ -10,7 +13,6 @@
         Dim vowelloc() As Integer
         Dim charcounter As Integer = 0
         Dim vowelarraycounter As Integer = 0
-        Dim randomnumber As New Random
         Dim chosennum As Integer
         Dim whichvoweltoremove As Integer = 0
 
@@ -50,7 +52,10 @@
                     chosennum = 1
                 Else
                     Do Until chosennum <> 0
-                        chosennum = randomnumber.Next(vowels)
+                        chosennum = randomnumber.Next(vowels + 1)
+                        If chosennum = vowels + 1 Then
+                            chosennum = vowels - 1
+                        End If
                     Loop
 
                 End If
@@ -71,7 +76,12 @@
 
             Do Until counter >= chosennum
 
-                newtext = newtext.Replace(newtext.Substring(vowelloc(counter) - removecounter, 1), "")
+                Try
+                    newtext = newtext.Replace(newtext.Substring(vowelloc(counter) - removecounter, 1), "")
+                Catch ex As Exception
+                    newtext = newtext.Substring(0, newtext.Length - 1)
+                End Try
+
 
                 counter += 1
                 removecounter += 1
